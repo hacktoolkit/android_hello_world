@@ -1,7 +1,7 @@
-package codepath.demos.helloworlddemo;
+package com.hacktoolkit.android.helloworld;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 
 public class HelloWorldActivity extends Activity {
