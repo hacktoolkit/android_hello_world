@@ -3,6 +3,9 @@
 
     <string name="app_name">HelloWorld</string>
     <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    <string name="splash_text_title">Hello World</string>
+    <string name="splash_text_subtitle">A Hacktoolkit Production</string>
+    <string name="title_activity_invite_friends_sms">InviteFriendsSMS</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_splash">Splash Screen</string>
+    <string name="menu_about">About Hacktoolkit</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_app_store">View in App Store</string>
+    <string name="menu_invite_sms">Invite Friends via SMS</string>
+</resources>

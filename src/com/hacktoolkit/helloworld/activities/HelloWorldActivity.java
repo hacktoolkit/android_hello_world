@@ -1,8 +1,12 @@
-package com.hacktoolkit.android.helloworld;
+package com.hacktoolkit.helloworld.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+
+import com.hacktoolkit.helloworld.R;
+import com.hacktoolkit.helloworld.helpers.AppHelpers;
 
 public class HelloWorldActivity extends Activity {
 
@@ -14,8 +18,13 @@ public class HelloWorldActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_hello_world, menu);
+		AppHelpers.inflatePrimaryMenu(this, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		AppHelpers.handleMenuItemSelected(this,  item);
 		return true;
 	}
 
