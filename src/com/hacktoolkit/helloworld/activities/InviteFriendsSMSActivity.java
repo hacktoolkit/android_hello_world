@@ -22,23 +22,28 @@ import com.hacktoolkit.android.utils.ContactsUtils;
 import com.hacktoolkit.android.utils.HTKUtils;
 import com.hacktoolkit.helloworld.R;
 import com.hacktoolkit.helloworld.adapters.ContactsAdapter;
+import com.hacktoolkit.helloworld.constants.AppConstants;
 import com.hacktoolkit.helloworld.helpers.AppHelpers;
 
 public class InviteFriendsSMSActivity extends Activity {
-	ArrayList<HTKContact> theContacts;
+	ContactsAdapter adapter;
+	ArrayList<HTKContact> contacts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_invite_friends_sms);
-		
-		SmsManager sms = SmsManager.getDefault();
-		
-		// get the data source
-		ArrayList<HTKContact> contacts = ContactsUtils.getContactsWithPhone(this);
-		theContacts = contacts;
-		// Create the adapter to convert the array to views
-		ContactsAdapter adapter = new ContactsAdapter(this, contacts);
+
+		if (savedInstanceState != null) {
+			contacts = savedInstanceState.getParcelableArrayList("contacts");
+			adapter = new ContactsAdapter(this, R.layout.invite_contact_layout, contacts);
+		} else {
+			contacts = new ArrayList<HTKContact>();
+			adapter = new ContactsAdapter(this, R.layout.invite_contact_layout, contacts);
+			// get the data source asynchronously
+			ContactsUtils.getContactsWithPhoneAsync(this, adapter);
+		}
+
 		// attach the adapter to a ListView
 		ListView lvContacts = (ListView) findViewById(R.id.lvContacts);
 		lvContacts.setAdapter(adapter);
@@ -50,18 +55,11 @@ public class InviteFriendsSMSActivity extends Activity {
 					View view, int position, long rowId) {
 				CheckBox checkBox = (CheckBox) view.findViewById(R.id.cbContactSelected);
 				checkBox.toggle();
-				HTKContact clickedItem = theContacts.get(position);
-				clickedItem.setMetaData("selected", checkBox.isChecked());
-//				Toast.makeText(
-//						getApplicationContext(),
-//						"Clicked ListItem Number " + position + ", " + clickedItem,
-//						Toast.LENGTH_SHORT
-//						).show();
+				adapter.setItemSelected(position, checkBox.isChecked());
 			}
 		});
-		
+
 		btnInvite.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				confirmSendInvites();
@@ -70,23 +68,18 @@ public class InviteFriendsSMSActivity extends Activity {
 	}
 
 	private void confirmSendInvites() {
-		ArrayList<HTKContact> invitationsToSend = new ArrayList<HTKContact>();
-		for (HTKContact contact : theContacts) {
-			if ((Boolean) contact.getMetaData("selected")) {
-				invitationsToSend.add(contact);
-			}
-		}
-		final ArrayList<HTKContact> invitations = invitationsToSend;
+		final ArrayList<HTKContact> invitationsToSend = adapter.getSelectedContacts();
 		new AlertDialog.Builder(this)
-		.setTitle("Send SMS Invitations?")
-		.setMessage("Are you sure you want to send " + invitationsToSend.size() + " invitations using SMS?")
+		.setTitle(AppConstants.CONFIRM_SMS_INVITE_TITLE)
+		.setMessage(String.format(AppConstants.CONFIRM_SMS_INVITE_MESSAGE, invitationsToSend.size()))
 		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				for (HTKContact contact : invitations) {
+				for (HTKContact contact : invitationsToSend) {
 					String phone = (String) contact.getData("phone");
-					HTKUtils.sendSMS(phone, contact.getData("name") + ": Check out Hacktoolkit at http://hacktoolkit.com");
+					String name = (String) contact.getData("name");
+					HTKUtils.sendSMS(AppConstants.FAKE_PHONE, String.format(AppConstants.SMS_INVITE_MESSAGE, name, phone));
 				}
 			}
 		})
@@ -104,5 +97,14 @@ public class InviteFriendsSMSActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		AppHelpers.handleMenuItemSelected(this,  item);
 		return true;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		// Save UI state changes to the outState.
+		// This bundle will be passed to onCreate if the process is
+		// killed and restarted.
+		outState.putParcelableArrayList("contacts", contacts);
 	}
 }
