@@ -74,7 +74,7 @@ public class ContactsAdapter extends HTKContactsAdapter {
 		Bitmap thumbnail = BitmapFactory.decodeStream(photoInputStream);
 		viewHolder.ivContactThumbnail.setImageBitmap(thumbnail);
 		viewHolder.tvName.setText((String) item.getData("name"));
-		viewHolder.tvPhone.setText(String.format("%s: %s", (String) item.getData("phoneType"), (String) item.getData("phone"));
+		viewHolder.tvPhone.setText(String.format("%s: %s", (String) item.getData("phoneType"), (String) item.getData("phone")));
 		boolean isSelected = (Boolean) contact.getMetaData("selected");
 		System.out.println(contact.toJSON() + ", " + isSelected);
 		viewHolder.cbContactSelected.setChecked(isSelected);
