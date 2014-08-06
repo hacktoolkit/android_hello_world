@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
-            android:text="Invite Friends"
+            android:text="@string/invite_friends_heading"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
             android:id="@+id/btnInvite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Invite" />
+            android:text="@string/btn_invite" />
 
     </LinearLayout>
 
@@ -38,7 +38,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout1"
-        android:text="Which friends do you want to invite? Most people select at least 10 friends." />
+        android:text="@string/invite_friends_message" />
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvInviteBlurb"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+    </RelativeLayout>
     
     <ListView
         android:id="@+id/lvContacts"

@@ -37,6 +37,7 @@ public class InviteFriendsSMSActivity extends Activity {
 		if (savedInstanceState != null) {
 			contacts = savedInstanceState.getParcelableArrayList("contacts");
 			adapter = new ContactsAdapter(this, R.layout.invite_contact_layout, contacts);
+			adapter.hideLoadingPanel();
 		} else {
 			contacts = new ArrayList<HTKContact>();
 			adapter = new ContactsAdapter(this, R.layout.invite_contact_layout, contacts);
@@ -55,7 +56,8 @@ public class InviteFriendsSMSActivity extends Activity {
 					View view, int position, long rowId) {
 				CheckBox checkBox = (CheckBox) view.findViewById(R.id.cbContactSelected);
 				checkBox.toggle();
-				adapter.setItemSelected(position, checkBox.isChecked());
+				boolean isChecked = checkBox.isChecked();
+				adapter.setItemSelected(position, isChecked);
 			}
 		});
 

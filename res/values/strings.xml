@@ -7,5 +7,8 @@
     <string name="splash_text_subtitle">A Hacktoolkit Production</string>
     <string name="title_activity_invite_friends_sms">InviteFriendsSMS</string>
     <string name="action_settings">Settings</string>
+    <string name="btn_invite">Invite</string>
+    <string name="invite_friends_heading">Invite Friends</string>
+    <string name="invite_friends_message">Which friends do you want to invite? Most people select at least 10 friends.</string>
 
 </resources>
