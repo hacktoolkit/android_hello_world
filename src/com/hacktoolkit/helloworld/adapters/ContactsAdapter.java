@@ -48,22 +48,11 @@ public class ContactsAdapter extends HTKContactsAdapter {
 			viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvName);
 			viewHolder.tvPhone = (TextView) convertView.findViewById(R.id.tvPhone);
 			viewHolder.cbContactSelected = (CheckBox) convertView.findViewById(R.id.cbContactSelected);
-			viewHolder.cbContactSelected.setTag(contact);
-			viewHolder.cbContactSelected.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					CheckBox checkBox = (CheckBox) buttonView;
-					HTKContact contact = (HTKContact) checkBox.getTag();
-					contact.setSelected(isChecked);
-				}
-			});
-
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
-			viewHolder.cbContactSelected.setTag(contact);
 		}
+		viewHolder.cbContactSelected.setTag(contact);
 
 		// Get the data item for this position
 		HTKContact item = (HTKContact) this.getItem(position);

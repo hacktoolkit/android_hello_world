@@ -10,5 +10,5 @@
     <string name="btn_invite">Invite</string>
     <string name="invite_friends_heading">Invite Friends</string>
     <string name="invite_friends_message">Which friends do you want to invite? Most people select at least 10 friends.</string>
-
+    <string name="contact_thumbnail">Contact Thumbnail</string>
 </resources>

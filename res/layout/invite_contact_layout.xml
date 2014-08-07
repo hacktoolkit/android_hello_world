@@ -12,7 +12,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:focusableInTouchMode="false"
+        android:clickable="false" />
 
     <TextView
         android:id="@+id/tvName"
@@ -20,13 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivContactThumbnail"
-        android:text="TextView"
+        android:text=""
         android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/ivContactThumbnail"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:contentDescription="@string/contact_thumbnail"
+        android:layout_marginRight="5dp" />
 
     <TextView
         android:id="@+id/tvPhone"
@@ -34,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
         android:layout_toRightOf="@+id/ivContactThumbnail"
-        android:text="TextView"
+        android:text=""
         android:textColor="#aaa"
         android:textSize="12sp" />
 
