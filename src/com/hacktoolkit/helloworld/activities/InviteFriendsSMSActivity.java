@@ -2,11 +2,11 @@ package com.hacktoolkit.helloworld.activities;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.telephony.SmsManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
+import com.hacktoolkit.android.fragments.ContactsFragment;
 import com.hacktoolkit.android.models.HTKContact;
 import com.hacktoolkit.android.utils.ContactsUtils;
 import com.hacktoolkit.android.utils.HTKUtils;
@@ -25,22 +26,37 @@ import com.hacktoolkit.helloworld.adapters.ContactsAdapter;
 import com.hacktoolkit.helloworld.constants.AppConstants;
 import com.hacktoolkit.helloworld.helpers.AppHelpers;
 
-public class InviteFriendsSMSActivity extends Activity {
+public class InviteFriendsSMSActivity extends FragmentActivity {
 	ContactsAdapter adapter;
 	ArrayList<HTKContact> contacts;
+	private ContactsFragment contactsFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_invite_friends_sms);
 
-		if (savedInstanceState != null) {
-			contacts = savedInstanceState.getParcelableArrayList("contacts");
-			adapter = new ContactsAdapter(this, R.layout.invite_contact_layout, contacts);
-			adapter.hideLoadingPanel();
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		contactsFragment = (ContactsFragment) fragmentManager.findFragmentByTag("contacts");
+
+		if (contactsFragment == null) {
+			contactsFragment = new ContactsFragment();
+			fragmentManager.beginTransaction().add(contactsFragment, "contacts").commit();
+		}
+
+		contacts = contactsFragment.getContacts();
+		adapter = new ContactsAdapter(this, R.layout.invite_contact_layout, contacts);
+		contactsFragment.setAdapter(adapter);
+		if (savedInstanceState != null && contactsFragment.hasStarted()) {
+			if (contacts.isEmpty()) {
+				ArrayList<HTKContact> parceledContacts = savedInstanceState.getParcelableArrayList("contacts");
+				if (!parceledContacts.isEmpty()) {
+					adapter.loadContacts(parceledContacts);
+				}
+			} else {
+				adapter.hideLoadingPanel();
+			}
 		} else {
-			contacts = new ArrayList<HTKContact>();
-			adapter = new ContactsAdapter(this, R.layout.invite_contact_layout, contacts);
 			// get the data source asynchronously
 			ContactsUtils.getContactsWithPhoneAsync(this, adapter);
 		}
@@ -108,5 +124,11 @@ public class InviteFriendsSMSActivity extends Activity {
 		// This bundle will be passed to onCreate if the process is
 		// killed and restarted.
 		outState.putParcelableArrayList("contacts", contacts);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		//contactsFragment.setContacts(contacts);
 	}
 }

@@ -1,31 +1,27 @@
 package com.hacktoolkit.helloworld.adapters;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.ScaleAnimation;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hacktoolkit.android.adapters.HTKContactsAdapter;
 import com.hacktoolkit.android.models.HTKContact;
-import com.hacktoolkit.android.utils.ContactsUtils;
 import com.hacktoolkit.helloworld.R;
 
 public class ContactsAdapter extends HTKContactsAdapter {
 	ViewHolder viewHolder;
 
 	private static class ViewHolder {
-		ImageView ivContactThumbnail;
+		ImageView ivAvatar;
 		TextView tvName;
 		TextView tvPhone;
 		CheckBox cbContactSelected;
@@ -44,7 +40,7 @@ public class ContactsAdapter extends HTKContactsAdapter {
 			// configure view holder
 			viewHolder = new ViewHolder();
 			// Lookup views for data population
-			viewHolder.ivContactThumbnail = (ImageView) convertView.findViewById(R.id.ivContactThumbnail);
+			viewHolder.ivAvatar = (ImageView) convertView.findViewById(R.id.ivAvatar);
 			viewHolder.tvName = (TextView) convertView.findViewById(R.id.tvName);
 			viewHolder.tvPhone = (TextView) convertView.findViewById(R.id.tvPhone);
 			viewHolder.cbContactSelected = (CheckBox) convertView.findViewById(R.id.cbContactSelected);
@@ -58,14 +54,20 @@ public class ContactsAdapter extends HTKContactsAdapter {
 		HTKContact item = (HTKContact) this.getItem(position);
 
 		// fill data
-		int contactId = (Integer) item.getData("id");
-		InputStream photoInputStream = ContactsUtils.openPhoto((Activity) context, contactId);
-		Bitmap thumbnail = BitmapFactory.decodeStream(photoInputStream);
-		viewHolder.ivContactThumbnail.setImageBitmap(thumbnail);
+		Bitmap avatar = item.getAvatar(context);
+
+		viewHolder.ivAvatar.setImageBitmap(avatar);
+        ScaleAnimation scaleAvatarAnimation = new ScaleAnimation(
+        		0.0F, 1.0F, 0.0F, 1.0F,
+        		viewHolder.ivAvatar.getWidth() / 2,
+        		viewHolder.ivAvatar.getHeight() / 2
+        		);
+        scaleAvatarAnimation.setDuration(100L);
+        scaleAvatarAnimation.setFillAfter(true);
+        viewHolder.ivAvatar.startAnimation(scaleAvatarAnimation);
 		viewHolder.tvName.setText((String) item.getData("name"));
 		viewHolder.tvPhone.setText(String.format("%s: %s", (String) item.getData("phoneType"), (String) item.getData("phone")));
 		boolean isSelected = (Boolean) contact.getMetaData("selected");
-		System.out.println(contact.toJSON() + ", " + isSelected);
 		viewHolder.cbContactSelected.setChecked(isSelected);
 
 		return convertView;

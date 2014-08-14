@@ -20,23 +20,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivContactThumbnail"
+        android:layout_toRightOf="@+id/ivAvatar"
         android:text=""
         android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/ivContactThumbnail"
+        android:id="@+id/ivAvatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:contentDescription="@string/contact_thumbnail"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:contentDescription="@string/contact_thumbnail" />
 
     <TextView
         android:id="@+id/tvPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
-        android:layout_toRightOf="@+id/ivContactThumbnail"
+        android:layout_toRightOf="@+id/ivAvatar"
         android:text=""
         android:textColor="#aaa"
         android:textSize="12sp" />
