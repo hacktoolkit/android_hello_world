@@ -18,6 +18,11 @@
         <activity
             android:name=".activities.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activities.HelloWorldActivity" >
         </activity>
@@ -29,11 +34,6 @@
         <activity
             android:name="com.hacktoolkit.helloworld.activities.InviteFriendsSMSActivity"
             android:label="@string/title_activity_invite_friends_sms" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
